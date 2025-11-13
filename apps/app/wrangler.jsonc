@@ -1,0 +1,6 @@
+{
+  "name": "app",
+  "compatibility_date": "2025-09-27",
+  "assets": {"not_found_handling": "single-page-application"},
+  // "routes": [{ "custom_domain": true, "pattern": "app.usevariant.com" }],
+}

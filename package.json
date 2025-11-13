@@ -1,0 +1,10 @@
+{
+  "name": "baseload",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ]
+  }
+}

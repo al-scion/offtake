@@ -1,0 +1,50 @@
+{
+  "display": "Default",
+
+  "compilerOptions": {
+    // Language and Environment
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+
+    // Modules
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+
+    // JavaScript Support
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Emit
+    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "jsx": "react-jsx",
+    // "jsx": "preserve",
+    
+    // Type Checking
+    "composite": false, // Set this to false to prevent import errors
+    "strict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    
+    // Completeness
+    "skipLibCheck": true,
+    
+    // Linting
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    
+    // Environment
+    // "types": ["vite/client", "bun"],
+    // "types": ["bun"]
+  },
+
+  "exclude": ["node_modules", "dist"]
+}
