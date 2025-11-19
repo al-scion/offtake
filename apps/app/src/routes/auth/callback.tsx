@@ -1,11 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useAuth } from '@workos-inc/authkit-react'
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useAuth } from "@workos-inc/authkit-react";
 
-export const Route = createFileRoute('/auth/callback')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/auth/callback")({
+	component: RouteComponent,
+	beforeLoad: async ({ context }) => {
+		// Do some stuff with the auth data
+
+		throw redirect({ to: "/" });
+	},
+});
 
 function RouteComponent() {
-  const { signIn, signOut, signUp} = useAuth()
-  return <div></div>
+	return <div>Callback Loading...</div>;
 }

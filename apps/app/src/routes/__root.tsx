@@ -4,11 +4,11 @@ import { createRootRouteWithContext, HeadContent, Outlet, useRouterState } from 
 // import type { ConvexReactClient } from "convex/react";
 import { Providers } from "@/components/providers";
 import "../index.css";
-import { useAuth } from "@workos-inc/authkit-react";
+import type { useAuth } from "@workos-inc/authkit-react";
 
 export interface RouterContext {
 	queryClient: QueryClient;
-	// auth: ReturnType<typeof useAuth>;
+	auth: ReturnType<typeof useAuth>;
 	// convexReactClient: ConvexReactClient;
 	// convexQueryClient: ConvexQueryClient;
 }
