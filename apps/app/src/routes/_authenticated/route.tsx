@@ -10,6 +10,10 @@ export const Route = createFileRoute("/_authenticated")({
 		if (!context.auth.user) {
 			await context.auth.signIn();
 		}
+
+		if (!context.auth.organizationId) {
+			console.log("No organization id");
+		}
 	},
 });
 
@@ -20,10 +24,7 @@ function RouteComponent() {
 		<SidebarProvider style={{ "--sidebar-width": "14rem" } as React.CSSProperties}>
 			<AppSidebar />
 			<div className="flex w-full flex-col">
-				<header className="flex h-12 flex-row items-center border-b p-3">
-					{/* <div onClick={() => auth.signOut()}>Sign out</div> */}
-					{user?.id}
-				</header>
+				<header className="flex h-12 flex-row items-center border-b p-3">{user?.id}</header>
 				<Outlet />
 			</div>
 			<CommandMenu />
