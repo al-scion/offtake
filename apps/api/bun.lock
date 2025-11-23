@@ -3,7 +3,7 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "hono": "^4.10.4",
+        "hono": "^4.10.6",
       },
       "devDependencies": {
         "@types/bun": "^1.3.1",
@@ -21,7 +21,7 @@
 
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
-    "hono": ["hono@4.10.4", "", {}, "sha512-YG/fo7zlU3KwrBL5vDpWKisLYiM+nVstBQqfr7gCPbSYURnNEP9BDxEMz8KfsDR9JX0lJWDRNc6nXX31v7ZEyg=="],
+    "hono": ["hono@4.10.6", "", {}, "sha512-Bubnm23mTeXQI8XuQ8tmoKuJTOztiCWwFCypeMoW4yGJTw6zE+WLBr7x0hqV6RfVxOXcpCinGj4gUtksJjMtDA=="],
 
     "undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
   }
