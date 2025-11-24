@@ -13,7 +13,6 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
-import { Route as AuthenticatedVoiceRouteImport } from './routes/_authenticated/voice'
 import { Route as AuthenticatedTradeRouteImport } from './routes/_authenticated/trade'
 import { Route as AuthenticatedPortfolioRouteImport } from './routes/_authenticated/portfolio'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -37,11 +36,6 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedVoiceRoute = AuthenticatedVoiceRouteImport.update({
-  id: '/voice',
-  path: '/voice',
-  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTradeRoute = AuthenticatedTradeRouteImport.update({
   id: '/trade',
@@ -70,7 +64,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/trade': typeof AuthenticatedTradeRoute
-  '/voice': typeof AuthenticatedVoiceRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/onboarding': typeof OnboardingIndexRoute
 }
@@ -80,7 +73,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/portfolio': typeof AuthenticatedPortfolioRoute
   '/trade': typeof AuthenticatedTradeRoute
-  '/voice': typeof AuthenticatedVoiceRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/onboarding': typeof OnboardingIndexRoute
 }
@@ -92,7 +84,6 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/portfolio': typeof AuthenticatedPortfolioRoute
   '/_authenticated/trade': typeof AuthenticatedTradeRoute
-  '/_authenticated/voice': typeof AuthenticatedVoiceRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/onboarding/': typeof OnboardingIndexRoute
 }
@@ -104,7 +95,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/portfolio'
     | '/trade'
-    | '/voice'
     | '/auth/callback'
     | '/onboarding'
   fileRoutesByTo: FileRoutesByTo
@@ -114,7 +104,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/portfolio'
     | '/trade'
-    | '/voice'
     | '/auth/callback'
     | '/onboarding'
   id:
@@ -125,7 +114,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/portfolio'
     | '/_authenticated/trade'
-    | '/_authenticated/voice'
     | '/auth/callback'
     | '/onboarding/'
   fileRoutesById: FileRoutesById
@@ -167,13 +155,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/voice': {
-      id: '/_authenticated/voice'
-      path: '/voice'
-      fullPath: '/voice'
-      preLoaderRoute: typeof AuthenticatedVoiceRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/trade': {
       id: '/_authenticated/trade'
       path: '/trade'
@@ -210,7 +191,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedPortfolioRoute: typeof AuthenticatedPortfolioRoute
   AuthenticatedTradeRoute: typeof AuthenticatedTradeRoute
-  AuthenticatedVoiceRoute: typeof AuthenticatedVoiceRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -218,7 +198,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedPortfolioRoute: AuthenticatedPortfolioRoute,
   AuthenticatedTradeRoute: AuthenticatedTradeRoute,
-  AuthenticatedVoiceRoute: AuthenticatedVoiceRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

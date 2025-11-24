@@ -157,7 +157,7 @@ export function AppSidebar() {
 								render={(props, menuState) => (
 									<SidebarMenuButton className="w-fit" isActive={menuState.open} {...props}>
 										<Building2 />
-										<span className="truncate">Org name Org name Org name</span>
+										<span className="truncate">Org name</span>
 										<ChevronsUpDown className="-ml-1 size-3" />
 									</SidebarMenuButton>
 								)}
@@ -174,13 +174,13 @@ export function AppSidebar() {
 								</MenuItem>
 							</MenuPopup>
 						</Menu>
-						<TooltipButton
+						{/* <TooltipButton
 							className={cn("ml-auto hover:bg-sidebar-accent", state === "collapsed" && "hidden")}
 							tooltip="Collapse sidebar"
 							variant="ghost"
 						>
 							<PanelLeft />
-						</TooltipButton>
+						</TooltipButton> */}
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>

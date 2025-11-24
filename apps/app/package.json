@@ -13,7 +13,7 @@
     "@cloudflare/vite-plugin": "^1.15.2",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/router-vite-plugin": "^1.139.3",
-    "@types/react": "^19.2.6",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
@@ -41,7 +41,7 @@
     "react-hotkeys-hook": "^5.2.1",
     "react-map-gl": "^8.1.0",
     "tailwind-merge": "^3.4.0",
-    "zod": "^4.1.12",
+    "zod": "^4.1.13",
     "zustand": "^5.0.8"
   }
 }
