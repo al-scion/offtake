@@ -1,12 +1,18 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import { useAuth } from "@workos-inc/authkit-react";
+import type { OrganizationMembership } from "@workos-inc/node";
 import {
 	Building,
 	Building2,
+	Check,
+	ChevronDown,
 	ChevronRight,
 	ChevronsLeft,
 	ChevronsUpDown,
 	CircleChevronRight,
+	Database,
+	File,
 	Home,
 	Loader2,
 	LogOut,
@@ -22,11 +28,22 @@ import {
 	Webhook,
 } from "lucide-react";
 import React from "react";
+import { useApi } from "@/lib/api";
+import { useCreateWorkspace, useGetWorkspaces } from "@/lib/convex";
 import { useAppState } from "@/lib/state";
 import { cn } from "@/lib/utils";
 import { TooltipButton } from "./tooltip-button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Menu, MenuItem, MenuPopup, MenuSeparator, MenuTrigger } from "./ui/menu";
+import {
+	Menu,
+	MenuGroup,
+	MenuGroupLabel,
+	MenuItem,
+	MenuPopup,
+	MenuSeparator,
+	MenuShortcut,
+	MenuTrigger,
+} from "./ui/menu";
 import {
 	Sidebar,
 	SidebarContent,
@@ -143,9 +160,39 @@ function Folder(props: FolderProps) {
 
 export function AppSidebar() {
 	const urlPrefix = "";
+	const api = useApi();
 	const { toggleSidebar, state } = useSidebar();
-	const auth = useAuth();
+	const { user, signOut, switchToOrganization, getAccessToken, organizationId } = useAuth();
 	const location = useLocation();
+	const router = useRouter();
+
+	const { data: orgList } = useQuery({
+		queryKey: ["organizations"],
+		queryFn: async () => {
+			const response = await api.protected.organizations.$get();
+			return await response.json();
+		},
+	});
+	const org = orgList?.find((org) => org.organizationId === organizationId);
+
+	const { data: workspaces } = useGetWorkspaces(user!.id);
+	const { mutate: createWorkspace, isPending: isCreatingWorkspace } = useCreateWorkspace();
+	const handleCreateWorkspace = () => {
+		createWorkspace(
+			{ name: "New Workspace", namespace: user!.id },
+			{
+				onSuccess: (data) => {
+					router.navigate({ to: `/workspace/${data}` });
+				},
+			}
+		);
+	};
+	const workspaceItems =
+		workspaces?.map((workspace) => ({
+			label: workspace.name,
+			href: `/workspace/${workspace._id}`,
+			icon: Database,
+		})) ?? [];
 
 	return (
 		<Sidebar collapsible="icon">
@@ -153,22 +200,45 @@ export function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem className="flex flex-row gap-1">
 						<Menu>
-							<MenuTrigger
-								render={(props, menuState) => (
-									<SidebarMenuButton className="w-fit" isActive={menuState.open} {...props}>
-										<Building2 />
-										<span className="truncate">Org name</span>
-										<ChevronsUpDown className="-ml-1 size-3" />
-									</SidebarMenuButton>
-								)}
-							/>
+							<MenuTrigger render={<SidebarMenuButton className="w-fit" />}>
+								{/* <Building2 /> */}
+								<Avatar className="-mx-0.5 size-5 rounded-xs">
+									<AvatarFallback className="rounded-none bg-purple-600 text-white">
+										{org?.organizationName?.charAt(0)}
+									</AvatarFallback>
+								</Avatar>
+								<span className="truncate">{org?.organizationName}</span>
+								<ChevronsUpDown className="-ml-1 size-3" />
+								{/* <ChevronDown className="-ml-1.5 size-3 stroke-[2.4px]" /> */}
+							</MenuTrigger>
 							<MenuPopup align="start" className="min-w-52">
+								<MenuGroup>
+									<MenuGroupLabel>Organizations</MenuGroupLabel>
+									{orgList?.map((org) => (
+										<MenuItem
+											key={org.organizationId}
+											onClick={() => switchToOrganization({ organizationId: org.organizationId })}
+										>
+											<Avatar className="-mx-0.5 size-5 rounded-xs">
+												<AvatarFallback className="rounded-none bg-purple-600 text-white">
+													{org.organizationName?.charAt(0)}
+												</AvatarFallback>
+											</Avatar>
+											{org.organizationName}
+											<MenuShortcut>
+												{organizationId === org.organizationId && (
+													<Check className="size-3.5 rounded-full bg-primary p-0.5 text-primary-foreground" />
+												)}
+											</MenuShortcut>
+										</MenuItem>
+									))}
+								</MenuGroup>
+								<MenuSeparator />
 								<MenuItem>
 									<Settings />
 									Settings
 								</MenuItem>
-								<MenuSeparator />
-								<MenuItem onClick={() => auth.signOut()}>
+								<MenuItem onClick={() => signOut()}>
 									<LogOut />
 									Log out
 								</MenuItem>
@@ -210,7 +280,26 @@ export function AppSidebar() {
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
+				<Folder
+					actionHandler={handleCreateWorkspace}
+					// actionTooltip="Create workspace"
+					isActionLoading={isCreatingWorkspace}
+					items={workspaceItems}
+					label="Workspaces"
+				/>
 			</SidebarContent>
+			<SidebarFooter>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<SidebarMenuButton>
+							<Avatar className={cn("-ml-1 size-6")}>
+								<AvatarImage src={user?.profilePictureUrl ?? ""} />
+							</Avatar>
+							<span className="truncate">{user?.email}</span>
+						</SidebarMenuButton>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>
 	);

@@ -1,0 +1,42 @@
+{
+  "name": "worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --test-scheduled",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types",
+    "mcp": "bunx @modelcontextprotocol/inspector",
+    "secrets": "wrangler secret bulk .env && wrangler types",
+    "db": "drizzle-kit push"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.50",
+    "@ai-sdk/gateway": "^2.0.17",
+    "@ai-sdk/google": "3.0.0-beta.62",
+    "@ai-sdk/openai": "^2.0.75",
+    "@cloudflare/containers": "^0.0.30",
+    "@cloudflare/sandbox": "^0.5.6",
+    "@hono/standard-validator": "^0.1.5",
+    "@packages/convex": "workspace:*",
+    "@scalar/hono-api-reference": "^0.9.25",
+    "@upstash/redis": "^1.35.7",
+    "ai": "6.0.0-beta.124",
+    "cloudflare": "^5.2.0",
+    "convex": "^1.29.3",
+    "discord-hono": "^0.20.1",
+    "drizzle-orm": "^0.44.7",
+    "hono": "^4.10.7",
+    "hono-openapi": "^1.1.1",
+    "mcp-lite": "^0.10.0",
+    "stripe": "^20.0.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@cloudflare/playwright": "^1.0.0",
+    "@types/node": "^24.10.1",
+    "wrangler": "^4.51.0",
+    "drizzle-kit": "^0.30.6",
+    "@modelcontextprotocol/inspector": "^0.17.2"
+  }
+}

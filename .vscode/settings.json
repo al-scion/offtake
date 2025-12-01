@@ -17,6 +17,9 @@
     "**/routeTree.gen.ts": true
   },
   "css.lint.unknownAtRules": "ignore",
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  },
 
   "typescript.preferences.autoImportSpecifierExcludeRegexes": [
     "@base-ui-components/react"
@@ -50,9 +53,7 @@
     {
       "name": "tectonic",
       "command": "tectonic",
-      "args": [
-        "%DOC%.tex"
-      ]
+      "args": ["%DOC%.tex"]
     }
   ],
   "latex-workshop.latex.recipes": [
@@ -60,5 +61,5 @@
       "name": "Tectonic",
       "tools": ["tectonic"]
     }
-  ],
+  ]
 }

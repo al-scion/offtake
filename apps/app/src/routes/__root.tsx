@@ -1,7 +1,7 @@
-// import type { ConvexQueryClient } from "@convex-dev/react-query";
+import type { ConvexQueryClient } from "@convex-dev/react-query";
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Outlet, useRouterState } from "@tanstack/react-router";
-// import type { ConvexReactClient } from "convex/react";
+import type { ConvexReactClient } from "convex/react";
 import { Providers } from "@/components/providers";
 import "../index.css";
 import type { useAuth } from "@workos-inc/authkit-react";
@@ -9,8 +9,8 @@ import type { useAuth } from "@workos-inc/authkit-react";
 export interface RouterContext {
 	queryClient: QueryClient;
 	auth: ReturnType<typeof useAuth>;
-	// convexReactClient: ConvexReactClient;
-	// convexQueryClient: ConvexQueryClient;
+	convexReactClient: ConvexReactClient;
+	convexQueryClient: ConvexQueryClient;
 }
 
 export const Route = createRootRouteWithContext<RouterContext>()({

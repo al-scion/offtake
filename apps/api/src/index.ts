@@ -1,4 +1,5 @@
 import { Scalar } from "@scalar/hono-api-reference";
+import type { OrganizationMembership } from "@workos-inc/node";
 import { WorkOS } from "@workos-inc/node";
 import { s3, serve } from "bun";
 import { Hono } from "hono";
@@ -14,12 +15,17 @@ import { env } from "./env";
 
 type Variables = {
 	jwtPayload: JWTPayload & { sub: string };
+	workos: WorkOS;
 };
 
 const app = new Hono<{ Variables: Variables }>()
 	.use(logger())
 	.use(serveStatic({ root: "./public" }))
 	.use(cors())
+	.use(async (c, next) => {
+		c.set("workos", new WorkOS(env.WORKOS_API_KEY));
+		await next();
+	})
 	.use("/protected/*", jwk({ jwks_uri: `https://api.workos.com/sso/jwks/${env.WORKOS_CLIENT_ID}` }))
 
 	.get("/token", describeRoute({}), async (c) => {
@@ -36,16 +42,23 @@ const app = new Hono<{ Variables: Variables }>()
 	})
 
 	.get("/protected/auth", describeRoute({}), async (c) => {
-		// const payload = c.get("jwtPayload");
 		const payload = c.var.jwtPayload;
 		console.log(payload);
 		return c.json({ payload });
 	})
 
+	.get("/protected/organizations", async (c) => {
+		const workos = c.var.workos;
+		const { sub: userId } = c.var.jwtPayload;
+		const orgs = await workos.userManagement.listOrganizationMemberships({ userId });
+		const data = orgs.data;
+		return c.json(data);
+	})
+
 	.post("/create-organization", describeRoute({}), validator("json", z.object({ orgName: z.string() })), async (c) => {
 		const workos = new WorkOS(env.WORKOS_API_KEY);
 		const { orgName } = c.req.valid("json");
-		const { sub: userId } = c.get("jwtPayload");
+		const { sub: userId } = c.var.jwtPayload;
 
 		// Create organization
 		const org = await workos.organizations.createOrganization({ name: orgName });

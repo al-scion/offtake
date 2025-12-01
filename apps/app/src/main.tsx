@@ -1,8 +1,9 @@
-// import { ConvexQueryClient } from "@convex-dev/react-query";
+import { ConvexQueryClient } from "@convex-dev/react-query";
+import { ConvexProviderWithAuthKit } from "@convex-dev/workos";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { AuthKitProvider, useAuth } from "@workos-inc/authkit-react";
-// import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from "convex/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { env } from "@/lib/env";
@@ -16,17 +17,17 @@ declare module "@tanstack/react-router" {
 	}
 }
 
-// const convexReactClient = new ConvexReactClient(env.VITE_CONVEX_URL);
-// const convexQueryClient = new ConvexQueryClient(convexReactClient);
+const convexReactClient = new ConvexReactClient(env.VITE_CONVEX_URL);
+const convexQueryClient = new ConvexQueryClient(convexReactClient);
 const queryClient = new QueryClient({
 	defaultOptions: {
-		// queries: {
-		// 	queryKeyHashFn: convexQueryClient.hashFn(),
-		// 	queryFn: convexQueryClient.queryFn(),
-		// },
+		queries: {
+			queryKeyHashFn: convexQueryClient.hashFn(),
+			queryFn: convexQueryClient.queryFn(),
+		},
 	},
 });
-// convexQueryClient.connect(queryClient);
+convexQueryClient.connect(queryClient);
 
 const router = createRouter({
 	routeTree,
@@ -35,15 +36,14 @@ const router = createRouter({
 	context: {
 		queryClient,
 		auth: undefined!,
-		// convexReactClient,
-		// convexQueryClient,
+		convexReactClient,
+		convexQueryClient,
 	},
 	Wrap: ({ children }) => (
-		// <ConvexProvider client={convexReactClient}>
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-		// {/* </ConvexProvider> */}
+		<ConvexProviderWithAuthKit client={convexReactClient} useAuth={useAuth}>
+			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+		</ConvexProviderWithAuthKit>
 	),
-	// InnerWrap: ({children}) => (children)
 });
 
 const App = () => {
