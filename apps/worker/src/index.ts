@@ -1,14 +1,15 @@
 import { api } from "@packages/convex";
 import { Scalar } from "@scalar/hono-api-reference";
 import { Redis } from "@upstash/redis/cloudflare";
-import { generateText } from "ai";
 import { ConvexClient } from "convex/browser";
 import { type DrizzleD1Database, drizzle } from "drizzle-orm/d1";
+import { drizzle as drizzleHyperdrive } from "drizzle-orm/postgres-js";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { describeRoute, openAPIRouteHandler, validator } from "hono-openapi";
+import postgres from "postgres";
 import { z } from "zod";
 
 import { routers } from "./routes";
@@ -43,6 +44,10 @@ const app = new Hono<{ Bindings: Env; Variables: Variables }>()
 		const redis = Redis.fromEnv(c.env, {});
 		const convex = new ConvexClient(c.env.CONVEX_URL, {});
 		const database = drizzle(c.env.DB, { schema });
+
+		const sql = postgres(c.env.HYPERDRIVE.connectionString, { max: 5, fetch_types: false });
+		const hyperdrive = drizzleHyperdrive(sql, { schema: undefined });
+
 		c.set("redis", redis);
 		c.set("convex", convex);
 		c.set("database", database);

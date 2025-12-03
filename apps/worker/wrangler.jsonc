@@ -31,6 +31,7 @@
   "queues": {"producers": [{ "binding": "QUEUE", "queue": "queue", "remote": true }],"consumers": [{ "queue": "queue" }]},
   "workflows": [{"binding": "WORKFLOW", "name": "workflow", "class_name": "Workflow", "remote": true}],
   "analytics_engine_datasets": [{ "binding": "ANALYTICS_ENGINE", "dataset": "analytics" }],
+  "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "beee62b25d88473b94e1b04dd7f1b807", "localConnectionString": "postgresql://postgres:postgres@localhost:5432/postgres"}]
   // "tail_consumers": [{ "service": "repo-worker" }],
   // "containers": [
   //   {"class_name": "BrowserContainer","image": "../container/Dockerfile","instance_type": "standard-2"},
