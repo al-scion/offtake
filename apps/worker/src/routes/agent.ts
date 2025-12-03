@@ -1,4 +1,4 @@
-import { generateText } from "ai";
+import { Agent, generateText, ToolLoopAgent } from "ai";
 import { Hono } from "hono";
 import { describeRoute, validator } from "hono-openapi";
 import { z } from "zod";
@@ -28,4 +28,15 @@ agentRouter.post("/text", describeRoute({}), validator("json", z.object({ prompt
 	});
 
 	return c.json(response.text);
+});
+
+agentRouter.post("/agent", describeRoute({}), validator("json", z.object({ prompt: z.string() })), async (c) => {
+	const registry = c.var.registry;
+	const agent = new ToolLoopAgent({
+		model: registry.languageModel("google/gemini-flash-latest"),
+		instructions: "You are a helpful assistant that can answer questions and help with tasks.",
+		tools: {},
+	});
+
+	const response = agent.stream({ prompt: "Hello, how are you?" });
 });

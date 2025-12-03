@@ -6,7 +6,9 @@ const commands = [
 		.toJSON(),
 
 	new Command("ping", "response Pong"),
-	new Command("image", "Generates an image"),
+	new Command("image", "Generates an image")
+		.options(new Option("prompt", "The prompt to generate an image", "String").required())
+		.toJSON(),
 ];
 
 async function main() {

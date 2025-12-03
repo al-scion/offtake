@@ -3,6 +3,7 @@ import { useAuth } from "@workos-inc/authkit-react";
 import { Authenticated, AuthLoading, Unauthenticated, useConvexAuth } from "convex/react";
 import { Loader2 } from "lucide-react";
 import { AppSidebar } from "@/components/app-sidebar";
+import { ChatPanel } from "@/components/chat-panel";
 import { CommandMenu } from "@/components/command-menu";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getApiClient } from "@/lib/api";
@@ -65,17 +66,19 @@ function RouteComponent() {
 	}
 
 	return (
-		<SidebarProvider style={{ "--sidebar-width": "14rem" } as React.CSSProperties}>
-			<AppSidebar />
-			<div className="flex flex-1 flex-col">
-				<header className="flex h-12 flex-row items-center border-b p-3">
-					{user?.id} {organizationId}
-				</header>
-				<div className="flex flex-col">
-					<Outlet />
+		<ChatPanel>
+			<SidebarProvider style={{ "--sidebar-width": "14rem" } as React.CSSProperties}>
+				<AppSidebar />
+				<div className="flex flex-1 flex-col">
+					<header className="flex h-12 flex-row items-center border-b p-3">
+						{user?.id} {organizationId}
+					</header>
+					<div className="flex flex-col">
+						<Outlet />
+					</div>
 				</div>
-			</div>
-			<CommandMenu />
-		</SidebarProvider>
+				<CommandMenu />
+			</SidebarProvider>
+		</ChatPanel>
 	);
 }

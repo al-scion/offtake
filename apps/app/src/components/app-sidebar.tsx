@@ -12,6 +12,7 @@ import {
 	ChevronsUpDown,
 	CircleChevronRight,
 	Database,
+	Ellipsis,
 	File,
 	Home,
 	Loader2,
@@ -95,7 +96,7 @@ function Folder(props: FolderProps) {
 	return (
 		<SidebarGroup>
 			<SidebarMenu className="mb-px">
-				<SidebarMenuItem className="group/sidebar-item relative">
+				<SidebarMenuItem className="relative">
 					<SidebarMenuButton
 						className="text-foreground/70 hover:text-foreground/70 active:text-foreground/70"
 						onClick={() => setIsOpen(!isOpen)}
@@ -121,7 +122,7 @@ function Folder(props: FolderProps) {
 						<TooltipButton
 							className={cn(
 								"-translate-y-1/2 absolute top-1/2 right-1 size-6 rounded-sm transition-none hover:bg-sidebar-accent",
-								"opacity-0 focus-visible:opacity-100 group-hover/sidebar-item:opacity-100",
+								"opacity-0 focus-visible:opacity-100 group-hover/menu-item:opacity-100",
 								isActionLoading && "opacity-100",
 								state === "collapsed" && "hidden"
 							)}
@@ -143,13 +144,24 @@ function Folder(props: FolderProps) {
 			>
 				<SidebarMenu>
 					{items.map((item) => (
-						<SidebarMenuItem key={item.href}>
+						<SidebarMenuItem className="relative" key={item.href}>
 							<Link tabIndex={-1} to={item.href}>
 								<SidebarMenuButton isActive={location.pathname.includes(item.href)} tooltip={item.label}>
 									<item.icon />
 									<span>{item.label}</span>
 								</SidebarMenuButton>
 							</Link>
+							<TooltipButton
+								className={cn(
+									"-translate-y-1/2 absolute top-1/2 right-1 size-6 rounded-sm transition-none hover:bg-sidebar-accent",
+									"opacity-0 focus-visible:opacity-100 group-hover/menu-item:opacity-100",
+									state === "collapsed" && "hidden"
+								)}
+								size="icon"
+								variant="ghost"
+							>
+								<Ellipsis />
+							</TooltipButton>
 						</SidebarMenuItem>
 					))}
 				</SidebarMenu>
