@@ -73,7 +73,7 @@ function RouteComponent() {
 					<header className="flex h-12 flex-row items-center border-b p-3">
 						{user?.id} {organizationId}
 					</header>
-					<div className="flex flex-col">
+					<div className="flex flex-1 flex-col">
 						<Outlet />
 					</div>
 				</div>

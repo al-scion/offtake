@@ -1,4 +1,4 @@
-import { Agent, generateText, ToolLoopAgent } from "ai";
+import { Agent, convertToModelMessages, generateText, ToolLoopAgent } from "ai";
 import { Hono } from "hono";
 import { describeRoute, validator } from "hono-openapi";
 import { z } from "zod";
@@ -18,17 +18,43 @@ agentRouter.post("/image", describeRoute({}), validator("json", z.object({ promp
 	return c.body(new Uint8Array(uint8Array), 200, { "Content-Type": mediaType });
 });
 
-agentRouter.post("/text", describeRoute({}), validator("json", z.object({ prompt: z.string() })), async (c) => {
-	const registry = c.var.registry;
-	const { prompt } = c.req.valid("json");
+agentRouter.post(
+	"/text",
+	describeRoute({}),
+	validator("json", z.object({ id: z.string(), messages: z.array(z.any()) })),
+	async (c) => {
+		const registry = c.var.registry;
+		const { id, messages } = c.req.valid("json");
 
-	const response = await generateText({
-		model: registry.languageModel("google/gemini-3-pro-preview"),
-		prompt,
-	});
+		const modelMessages = convertToModelMessages(messages);
 
-	return c.json(response.text);
-});
+		const response = await generateText({
+			model: registry.languageModel("google/gemini-3-pro-preview"),
+			messages: modelMessages,
+		});
+
+		return c.json(response.text);
+	}
+);
+
+agentRouter.post(
+	"/stream",
+	describeRoute({}),
+	validator("json", z.object({ id: z.string(), messages: z.array(z.any()) })),
+	async (c) => {
+		const registry = c.var.registry;
+		const { id, messages } = c.req.valid("json");
+
+		const modelMessages = convertToModelMessages(messages);
+
+		const response = await generateText({
+			model: registry.languageModel("google/gemini-3-pro-preview"),
+			messages: modelMessages,
+		});
+
+		return c.json(response.text);
+	}
+);
 
 agentRouter.post("/agent", describeRoute({}), validator("json", z.object({ prompt: z.string() })), async (c) => {
 	const registry = c.var.registry;

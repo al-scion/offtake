@@ -31,14 +31,13 @@ discord.command("image", (c) => {
 		const response = await generateText({
 			model: registry.languageModel("google/gemini-3-pro-image-preview"),
 			prompt,
-			tools: {},
 			providerOptions: {
 				google: {
 					thinkingConfig: {
 						includeThoughts: true,
 					},
 					imageConfig: {
-						imageSize: "1K",
+						imageSize: "2K",
 					},
 				},
 			} satisfies ProviderOptions,

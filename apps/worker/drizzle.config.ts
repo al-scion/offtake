@@ -11,3 +11,12 @@ export default defineConfig({
 		token: process.env.CLOUDFLARE_D1_TOKEN!,
 	},
 });
+
+// export default defineConfig({
+// 	out: "./drizzle",
+// 	schema: "./src/services/database.ts",
+// 	dialect: "postgresql",
+// 	dbCredentials: {
+// 		url: process.env.DATABASE_URL,
+// 	},
+// });

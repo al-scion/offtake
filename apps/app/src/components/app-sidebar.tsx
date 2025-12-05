@@ -181,7 +181,7 @@ export function AppSidebar() {
 	const { data: orgList } = useQuery({
 		queryKey: ["organizations"],
 		queryFn: async () => {
-			const response = await api.protected.organizations.$get();
+			const response = await api.server.protected.organizations.$get();
 			return await response.json();
 		},
 	});

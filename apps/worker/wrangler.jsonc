@@ -1,5 +1,5 @@
 {
-  "name": "repo-worker",
+  "name": "offtake-worker",
   "main": "src/index.ts",
   "compatibility_date": "2025-09-27",
   "compatibility_flags": ["nodejs_compat"],
@@ -7,7 +7,7 @@
   "observability": { "enabled": true },
   "upload_source_maps": true,
   "placement": { "mode": "smart" },
-  "routes": [{ "custom_domain": true, "pattern": "worker.usevariant.com" }],
+  "routes": [{ "custom_domain": true, "pattern": "offtake-worker.usevariant.com" }],
   "minify": true,
   "keep_names": true,
   "workers_dev": true,
@@ -23,26 +23,26 @@
   "images": { "binding": "IMAGES", "remote": true },
   "pipelines": [{ "binding": "PIPELINE", "pipeline": "c0deb2bbd74e4f8da902ad6e9f4a95a5" }],
   "send_email": [{ "name": "EMAIL", "remote": true }],
-  "r2_buckets": [{"binding": "STORAGE", "bucket_name": "storage"}],
   "kv_namespaces": [{"binding": "KV","id": "cbf0b6588c244f738085f8987602a493","preview_id": "b32a456d74cf4340b058f3cac0b83bfc","remote": true}],
   "d1_databases": [{"binding": "DB","database_name": "database","database_id": "1b4bba59-ef05-4628-b570-03c6afc61928", "migrations_dir": "drizzle/migrations", "remote": true, }],
   "triggers": { "crons": ["0 0 * * *", "*/10 * * * *"] },
   "ratelimits": [{"name": "RATE_LIMITER","namespace_id": "1001","simple": { "limit": 100, "period": 60 }}],
-  "queues": {"producers": [{ "binding": "QUEUE", "queue": "queue", "remote": true }],"consumers": [{ "queue": "queue" }]},
-  "workflows": [{"binding": "WORKFLOW", "name": "workflow", "class_name": "Workflow", "remote": true}],
   "analytics_engine_datasets": [{ "binding": "ANALYTICS_ENGINE", "dataset": "analytics" }],
-  "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "beee62b25d88473b94e1b04dd7f1b807", "localConnectionString": "postgresql://postgres:postgres@localhost:5432/postgres"}]
+  "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "beee62b25d88473b94e1b04dd7f1b807", "localConnectionString": "postgresql://postgres:postgres@localhost:5432/postgres"}],
+  
+  // The queues consumers need to be unique
+  // "queues": {"producers": [{ "binding": "QUEUE", "queue": "queue", "remote": true }],"consumers": [{ "queue": "queue" }]},
+
+  // These settings below are where remote doesn't work
+  "workflows": [{"binding": "WORKFLOW", "name": "workflow", "class_name": "Workflow", "remote": false}],
+  "r2_buckets": [{"binding": "STORAGE", "bucket_name": "storage", "remote": false }],
+
+
+  // The below are the config for sandboxes
+  "containers": [{"class_name": "Sandbox", "image": "./Dockerfile", "instance_type": "standard-1"}],
+  "durable_objects": {"bindings": [{"class_name": "Sandbox", "name": "SANDBOX"}]},
+  "migrations": [{"new_sqlite_classes": ["Sandbox"], "tag": "v2"}],
+
+
   // "tail_consumers": [{ "service": "repo-worker" }],
-  // "containers": [
-  //   {"class_name": "BrowserContainer","image": "../container/Dockerfile","instance_type": "standard-2"},
-  //   {"class_name": "Agent", "image": "../agent/Dockerfile", "instance_type": "standard-2"}
-  // ],
-  // "durable_objects": {"bindings": [
-  //   { "name": "CONTAINER", "class_name": "BrowserContainer" },
-  //   { "name": "AGENT", "class_name": "Agent" },
-  // ]},
-  // "migrations": [
-  //   { "new_sqlite_classes": ["BrowserContainer"], "tag": "v1" },
-  //   { "new_sqlite_classes": ["Agent"], "tag": "v2"}
-  // ],
 }

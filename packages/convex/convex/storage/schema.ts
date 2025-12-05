@@ -6,7 +6,7 @@ export const storage = defineTable({
 	name: v.string(),
 	size: v.number(),
 	mimeType: v.string(),
-	sha256: v.string(), // a base16 encoded sha256 checksum of the file contents
+	sha256: v.optional(v.string()), // a base16 encoded sha256 checksum of the file contents
 	namespace: v.optional(v.string()),
 	metadata: v.optional(v.record(v.string(), v.any())),
 })

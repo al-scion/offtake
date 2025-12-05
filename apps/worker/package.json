@@ -5,25 +5,26 @@
   "scripts": {
     "dev": "wrangler dev --test-scheduled",
     "deploy": "wrangler deploy",
-    "types": "wrangler types",
     "mcp": "bunx @modelcontextprotocol/inspector",
+    "types": "wrangler types",
     "secrets": "wrangler secret bulk .env && wrangler types",
     "db": "drizzle-kit push"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^3.0.0-beta.70",
+    "@ai-sdk/anthropic": "^3.0.0-beta.71",
     "@ai-sdk/gateway": "^2.0.18",
     "@ai-sdk/google": "3.0.0-beta.62",
-    "@ai-sdk/openai": "^3.0.0-beta.76",
+    "@ai-sdk/openai": "^3.0.0-beta.81",
     "@cloudflare/containers": "^0.0.30",
-    "@cloudflare/sandbox": "^0.5.6",
+    "@cloudflare/sandbox": "^0.6.1",
     "@hono/standard-validator": "^0.1.5",
     "@packages/convex": "workspace:*",
     "@scalar/hono-api-reference": "^0.9.25",
     "@upstash/redis": "^1.35.7",
-    "ai": "^6.0.0-beta.128",
+    "@workos-inc/node": "^7.76.0",
+    "ai": "^6.0.0-beta.131",
     "cloudflare": "^5.2.0",
-    "convex": "^1.29.3",
+    "convex": "^1.30.0",
     "discord-hono": "^0.20.1",
     "drizzle-orm": "^0.44.7",
     "hono": "^4.10.7",
@@ -36,7 +37,7 @@
   "devDependencies": {
     "@cloudflare/playwright": "^1.0.0",
     "@types/node": "^24.10.1",
-    "wrangler": "^4.51.0",
+    "wrangler": "^4.52.1",
     "drizzle-kit": "^0.30.6",
     "@modelcontextprotocol/inspector": "^0.17.2"
   }
